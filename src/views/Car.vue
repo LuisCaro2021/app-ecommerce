@@ -3,6 +3,10 @@
     <div class="card">
       <h5 class="card-header">Productos en el carro</h5>
       <div class="card-body">
+          <input type="email" 
+                  v-model="email" 
+                  placeholder="Escriba su email" 
+                  class="form-control" />
           <table class="table">
             <thead>
               <tr>
@@ -50,12 +54,15 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import { deleteProduct, getProducts } from '../services/car';
+import { clearProducts, deleteProduct, getProducts } from '../services/car';
+import { createPedido } from '../services/pedido';
+import Swal from 'sweetalert2';
 
 export default {
     setup() {
 
         const products = ref([]);
+        const email = ref('');
 
         onMounted(() => {
             products.value = getProducts();
@@ -66,8 +73,56 @@ export default {
             products.value = getProducts();
         }
 
-        const buy = () => {
-            console.log(products.value);
+        const buy = async () => {
+            //console.log(products.value);
+            //console.log(email.value);
+
+            if (email.value === '') {
+                Swal.fire(
+                    'Información',
+                    'Por favor escribir un email',
+                    'info'
+                );
+                
+            } else {
+
+                for (const product of products.value) {
+                    if (!product.quantity || product.quantity <= 0) {
+                        Swal.fire(
+                            'Información',
+                            `Por favor escribir una cantidad para ${product.name}`,
+                            'info'
+                        );
+                        return;
+                    }
+                }
+
+                const pedido = {
+                    email: email.value,
+                    products: products.value,
+                }
+
+                Swal.fire({
+                    allowOutsideClick: false,
+                    text: 'Cargando...'
+                });
+
+                Swal.showLoading();
+
+                const resp = await createPedido(pedido);
+
+                if (!resp.ok) {
+                    console.log('Error al guardar');
+                } else {
+                    console.log('OK');
+                    clearProducts();
+                    products.value = [];
+                    email.value = '';
+                }
+
+                Swal.close();
+            }
+
         }
 
         const onChange = (event, product) => {
@@ -80,6 +135,7 @@ export default {
             removeProduct,
             buy,
             onChange,
+            email,
     
         }
 

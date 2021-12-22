@@ -43,8 +43,13 @@ const deleteProduct = (product) => {
 
 }
 
+const clearProducts = () => {
+    localStorage.removeItem('products');
+}
+
 export {
     addProduct,
     getProducts,
     deleteProduct,
+    clearProducts,
 }
