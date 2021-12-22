@@ -12,6 +12,7 @@
 import { getProducts } from '../services/product';
 import { ref, onMounted } from 'vue';
 import ProductCard from '../components/ProductCard.vue';
+import Swal from 'sweetalert2';
 
 export default {
   name: 'Home',
@@ -24,6 +25,14 @@ export default {
     let products = ref([]);
 
     const setProducts = async () => {
+
+      Swal.fire({
+        allowOutsideClick: false,
+        text: 'Cargando...'
+      });
+
+      Swal.showLoading();
+
       console.log('Inicio ejecución get')
 
       const resp = await getProducts();
@@ -34,6 +43,9 @@ export default {
         products.value = await resp.json();
         console.log(products);
       }
+
+      Swal.close();
+
     }
     
 
