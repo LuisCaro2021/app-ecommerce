@@ -102,12 +102,17 @@ export default {
                     products: products.value,
                 }
 
-                Swal.fire({
-                    allowOutsideClick: false,
-                    text: 'Cargando...'
-                });
-
-                Swal.showLoading();
+                //Swal.fire({
+                //    allowOutsideClick: false,
+                //    text: 'Cargando...'
+                //});
+//
+                //Swal.showLoading();
+                Swal.fire(
+                    'Información',
+                    'Pedido generado con éxito',
+                    'success'
+                );
 
                 const resp = await createPedido(pedido);
 
@@ -120,14 +125,14 @@ export default {
                     email.value = '';
                 }
 
-                Swal.close();
+                //Swal.close();
             }
 
         }
 
         const onChange = (event, product) => {
             console.log(event.target.value, product);
-            //localStorage
+            
         }
 
         return {

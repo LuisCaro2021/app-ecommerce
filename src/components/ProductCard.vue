@@ -13,6 +13,7 @@
 
 <script>
 import { addProduct } from '../services/car';
+import Swal from 'sweetalert2';
 
 export default {
     props: {

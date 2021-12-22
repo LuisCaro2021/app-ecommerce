@@ -9,6 +9,7 @@ const getProducts = () => {
     return products;
 
 }
+import Swal from 'sweetalert2';
 
 const addProduct = (product) => {
 
@@ -18,7 +19,7 @@ const addProduct = (product) => {
 
         products.push(product);
         localStorage.setItem('products', JSON.stringify(products));
-
+        
     } else {
 
         const productExists = products.find(p => p.id === product.id);
@@ -26,9 +27,26 @@ const addProduct = (product) => {
         if (!productExists) {
             products.push(product);
             localStorage.setItem('products', JSON.stringify(products));
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Producto agregado a tu carrito',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            
         } else {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Producto ya se encuentra en tu carrito',
+                showConfirmButton: false,
+                timer: 2000
+            });
             console.log('producto existe');
+            
         }
+        
     }
 
 }

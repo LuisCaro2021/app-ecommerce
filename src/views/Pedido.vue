@@ -1,3 +1,3 @@
 <template>
-    <h1>Estoy pedido</h1>
+    <h1>En Construcción</h1>
 </template>
