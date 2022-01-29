@@ -1,6 +1,6 @@
 const getProducts = () => {
 
-    const url = 'http://ecommerce-php.test/api/product';
+    const url = 'http://casoaplicativo-php.test/api/product';
 
     return fetch(url, {
         method: 'GET',
